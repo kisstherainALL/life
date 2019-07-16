@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>供应商列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 订单管理 <span class="c-gray en">&gt;</span> 订单查看 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="pd-20">
+
+{literal}
+
+
+  <div style="overflow: hidden;" class="text-c">
+    <span style="float: left; margin-top: 5px;"><b>日期范围：</b></span>
+    <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="datemin" class="input-text Wdate" style="width:165px;float: left;" value="">
+    <span style="float: left; margin-top: 5px;"><b>-</b></span>
+    <input type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="datemax" class="input-text Wdate" style="width:165px;float: left;" value="">
+{/literal}     
+    <form method="post" action="{:url('admin/Order/order_dclistExcel')}">
+    <button style="float: right;margin-left: 5px;" id="download" class="btn btn-primary radius" href="{:url('admin/Order/order_dclistExcel',['page' => $page])}">导出数据</button>
+    {if condition="!empty($start)"}
+    <input type="hidden" value="{$start}" name="start">
+    {else /} 
+    <input type="hidden" value="" name="start">
+    {/if}
+    {if condition="!empty($end)"}
+    <input type="hidden" value="{$end}" name="end">
+    {else /} 
+    <input type="hidden" value="" name="end">
+    {/if}
+    {if condition="!empty($payment)"}
+    <input type="hidden" value="{$payment}" name="payment">
+    {else /} 
+    <input type="hidden" value="" name="payment">
+    {/if}
+    {if condition="!empty($status)"}
+    <input type="hidden" value="{$status}" name="status">
+    {else /} 
+    <input type="hidden" value="" name="status">
+    {/if}
+    {if condition="!empty($keyword)"}
+    <input type="hidden" value="{$keyword}" name="keyword">
+    {else /} 
+    <input type="hidden" value="" name="keyword">
+    {/if}
+    </form>
+      
+   <button style="float: right;" type="submit" class="btn btn-success" id="sec" name=""><i class="icon-search"></i> 搜索</button>
+    <input type="text" class="input-text" style="width:170px;float: right;" placeholder="餐厅/商店/订单号/收货人" id="keyword" name="">
+    <select  style="width: 100px;height: 31px;float: right;margin-right: 5px;" class="input-text" id="order_state" name="">
+      <option value="">-订单状态-</option>
+      <option value="">全部</option>  
+      <option value="未处理">未处理</option> 
+      <option value="待发货">待发货</option>
+      <option value="已发货">已发货</option>
+      <option value="确认收货">确认收货</option>  
+      <option value="已完成">已完成</option> 
+    </select>
+    
+    <select  style="width: 100px;height: 31px;float: right;margin-right: 5px;" class="input-text"  id="payment_state" name="">
+      <option value="">-支付状态-</option>
+      <option value="">全部</option>  
+      <option value="已付">已付</option> 
+      <option value="未付">未付</option>
+    </select>
+
+  </div>
+  <div class="cl pd-5 bg-1 bk-gray mt-20">
+    <!-- <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
+    </span> -->
+    <!-- <span class="r">共有数据：<strong>88</strong> 条</span> -->
+  </div>
+  
+  <table class="table table-border table-bordered table-hover table-bg table-sort">
+    <thead>
+      <tr class="text-c">
+        <!-- <th width=""><input type="checkbox" name="" value=""></th> -->
+        <th width="">序号</th>
+        <th width="">所属餐厅/商铺</th>
+        <th width="">订单号</th>
+        <th width="">订单金额</th>
+        <th width="">收货人</th>
+        <th width="">联系电话</th>
+        <th width="">地址</th>
+        <th width="">是否付款</th>
+        <th width="">订单状态</th>
+        <th width="">下单时间</th>
+        <th width="">操作</th>
+        <!-- <th width="70">状态</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      {volist name="res2" id="vo"}
+        <tr class="text-c">
+          <!-- <td><input type="checkbox" value="1" name=""></td> -->
+          <td>{$vo.ROW_NUMBER}</td>
+          <td>{$vo.Name}</td>
+          <td>{$vo.OrderCode}</td>
+          <td>{$vo.Total}</td>
+          <td>{$vo.Receiver}</td>
+          <td>{$vo.Mobile}</td>
+          <td>{$vo.Address}</td>
+          <td>{$vo.PayStatus}</td>
+          <td>{$vo.Status}</td>
+          <td>{$vo.TimeFd1}</td>
+          <td><a id="info" class="btn btn-primary radius" data-id="" href="{:url('admin/Order/dclist_info',['id' => $vo['ID']])}">查看</a>
+         
+        </tr>
+      {/volist}
+    </tbody>
+  </table>
+
+  <div id="pageNav" class="pageNav">
+    <style type="text/css">
+    .pagination li{
+      display: inline-block;
+      text-align: center;
+    }
+     </style>   
+
+    <ul class="pagination">
+    <li><a href="?page={if $page>1}{$page-1}{else}1{/if}">&laquo;上一页</a></li>
+    <li class="disabled"><a href="?page={$page+1}"><span>下一页&raquo;</a></span></li>
+    </ul>
+  </div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+  $("#sec").click(function (){
+    var keyword =$("#keyword").val();
+    var order = $("#order_state").val();
+    var payment = $("#payment_state").val();
+    var start =$("#datemin").val();
+    var end =$("#datemax").val();
+
+    if (end!='' && start!='' && payment!='' && order!='' && keyword!='') {
+      window.location.href="__ROOT__/admin/Order/order_dclist/keyword/"+keyword+"/status/"+order+"/payment/"+payment+"/start/"+start+"/end/"+end;
+    }else if(end!='' && start!='' && payment!='' && order!='' && keyword==''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/status/"+order+"/payment/"+payment+"/start/"+start+"/end/"+end;
+    }else if(end!='' && start!='' && payment!='' && order=='' && keyword==''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/payment/"+payment+"/start/"+start+"/end/"+end;
+    }else if(end!='' && start!='' && payment=='' && order=='' && keyword==''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/start/"+start+"/end/"+end;
+    }else if(start!='' && end=='' && payment=='' && order=='' && keyword==''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/start/"+start;
+    }else if(start=='' && end!='' && payment=='' && order=='' && keyword==''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/end/"+end;
+    }else if(start!='' && end=='' && payment!='' && order=='' && keyword==''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/start/"+start+"/payment/"+payment;
+    }else if(start!='' && end=='' && payment=='' && order!='' && keyword==''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/start/"+start+"/status/"+order;
+    }else if(start!='' && end=='' && payment=='' && order=='' && keyword!=''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/start/"+start+"/keyword/"+keyword;
+    }else if(start=='' && end=='' && payment=='' && order=='' && keyword!=''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/keyword/"+keyword;
+    }else if(start=='' && end=='' && payment=='' && order!='' && keyword==''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/status/"+order;
+    }else if(start=='' && end=='' && payment!='' && order=='' && keyword==''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/payment/"+payment;
+    }else if(start=='' && end=='' && payment!='' && order!='' && keyword==''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/payment/"+payment+"/status/"+order;
+    }else if(start=='' && end=='' && payment!='' && order!='' && keyword!=''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/payment/"+payment+"/status/"+order+"/keyword/"+keyword;
+    }else if(start=='' && end=='' && payment=='' && order!='' && keyword!=''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/status/"+order+"/keyword/"+keyword;
+    }else if(start=='' && end=='' && payment!='' && order=='' && keyword!=''){
+      window.location.href="__ROOT__/admin/Order/order_dclist/payment/"+payment+"/keyword/"+keyword;
+    }    
+   });
+
+ 
+
+</script>
+</body>
+</html>

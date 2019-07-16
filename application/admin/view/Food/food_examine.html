@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/style.css" />
+
+<link href="__PUBLIC__/admin/lib/lightbox2/2.8.1/css/lightbox.css" rel="stylesheet" type="text/css" >
+<!--[if IE 6]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>菜品审核</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 菜品管理 <span class="c-gray en">&gt;</span> 菜品审核 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="pd-20">
+
+{literal}
+
+{/literal}
+  <div class="text-c">
+    <select  style="width: 100px;height: 31px;margin-right: 5px;vertical-align: bottom;" class="input-text"  id="adopt" name="">
+      <option value="">-审核状态-</option>
+      <option value="">-- 全部 --</option>
+      <option value="3">--待审核--</option>   
+      <option value="1">审核已通过</option> 
+      <option value="2">审核不通过</option>
+    </select>
+    <input type="text" class="input-text" style="width:250px" placeholder="输入商店名称/商品名称" id="keyword" name=""><button type="submit" class="btn btn-success" id="sec" name=""><i class="icon-search"></i> 搜商品</button>
+
+  </div>
+  <form method="post" action="{:url('admin/Food/food_adopt_exit')}">
+  <div class="cl pd-5 bg-1 bk-gray mt-20">
+    <!-- <span class="l">
+    <a href="javascript:;" onclick="user_add('550','','添加用户','user-add.html')" class="btn btn-primary radius"><i class="icon-plus"></i> 添加商品</a>
+    <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
+    </span> -->
+
+    <!-- <span class="r">共有数据：<strong>{$num}</strong> 条</span> -->
+    <button type="submit" onclick="return confirm('确定以下商品通过审核吗？')" class="btn btn-success radius" value="yes" name="yes"><i class="Hui-iconfont">&#xe6e1;</i>批量通过审核</button>
+    <button type="submit" onclick="return confirm('确定以下商品不通过审核吗？')" class="btn btn-danger radius" value="no" name="no"><i class="Hui-iconfont">&#xe6dd;</i>批量驳回商品</button>
+  </div>
+  
+  <table class="table table-border table-bordered table-hover table-bg table-sort">
+    <thead>
+      <tr class="text-c">
+        <th width="20"><input type="checkbox" name="" value=""></th>
+        <th width="25">序号</th>
+        <th width="">所属店铺</th>
+        <th width="">商品名称</th>
+        <th width="">商品图片</th>
+        <th width="">商品价格</th>
+        <th width="">上架时间</th>
+        <th width="">商品状态</th>
+        <th width="">查看详情</th>
+        <th width="140">审核处理</th>
+        <!-- <th width="70">状态</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      {volist name="res2" id="vo"}
+        <tr class="text-c">
+          <td><input type="checkbox" value="{$vo.ID}" name="id[]"></td>
+          <td>{$vo.ROW_NUMBER}</td>
+          <td>{$vo.Name}</td>
+          <td>{$vo.Title}</td>
+          <td>
+            <a href="http://life.gzruizi.com/{$vo.Img}" data-lightbox="gallery" ><img width="50" height="35" class="picture-thumb" src="http://life.gzruizi.com/{$vo.Img}"></a>
+          </td>
+          <td>{$vo.Price}</td>
+          <td>{$vo.TimeFd1}</td>
+          
+          <td>
+            {if condition="$vo.Status=='下架'"} <span class="label label-defaunt radius">已{$vo.Status}</span>
+            {elseif condition="$vo.Status=='上架'"/}<span class="label label-success radius">已{$vo.Status}</span>
+          
+            {/if}
+          </td>
+          <td width="60">
+          <a id="info" class="btn btn-primary radius" href="{:url('admin/Food/info',['id' => $vo['ID']])}">查看</a>
+          </td>
+          <td width="140">
+          {if condition="$vo.NvrFd12==''or $vo.NvrFd12=='3'"}
+            <input class="btn btn-success btn-tongguo radius" type="button" onClick="pass(this,'{$vo.ID}',$(this))" value="通过"> <input class="btn btn-danger radius" type="button" onClick="rebut(this,'{$vo.ID}',$(this))" value="驳回">
+          {elseif condition="$vo.NvrFd12=='1'"/}
+            <input class="btn btn-success btn-tongguo radius" type="button" value="已通过审核">
+          {elseif condition="$vo.NvrFd12=='2'"/}
+            <input class="btn btn-danger btn-tongguo radius" type="button" value="不通过审核">
+          {/if}
+          </td>
+        </tr>
+      {/volist}
+    </tbody>
+  </table>
+  <div style="border: 1px solid #ccc;height: 35px;background-color: #f5fafe;">
+    <span style="line-height: 35px;"><strong>共有数据：<font color="#008B8B">{$num}</strong></font> 条</span>
+  </div>
+  </form>
+  <div id="pageNav" class="pageNav">
+    {include file="Public/page"}
+  </div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/laypage/1.2/laypage.js"></script>
+
+<script type="text/javascript" src="__PUBLIC__/admin/lib/lightbox2/2.8.1/js/lightbox.min.js"></script>
+<script type="text/javascript">
+  $("#sec").click(function (){
+    var keyword =$("#keyword").val();
+    var adopt = $("#adopt").val();
+    // alert(adopt);
+    // alert(keyword);
+    
+    if (adopt!='' && keyword=='') {
+      window.location.href="__ROOT__/admin/Food/food_examine/adopt/"+adopt;
+    }else if(adopt=='' && keyword!=''){
+      window.location.href="__ROOT__/admin/Food/food_examine/keyword/"+keyword;
+    }else if(adopt!='' && keyword!=''){
+      window.location.href="__ROOT__/admin/Food/food_examine/keyword/"+keyword+"/adopt/"+adopt;
+    }else if(adopt=='' && keyword==''){
+      window.location.href="__ROOT__/admin/Food/food_examine/";
+    }    
+   });
+/*通过审核*/
+function pass(obj,id,_this){
+    console.log(_this.closest('.text-c').index())
+    var id=id;
+    // alert(id);
+    layer.confirm('确认要通过审核吗？',function(index){
+    $.ajax({
+      type: 'POST',
+      url: "{:url('admin/Food/food_examine_pass')}",
+      dataType: 'json',
+            data:{movieId:id},
+      success: function(data){               
+        // $(obj).parents("tr").remove();
+        _this.val('已通过审核');
+        _this.siblings('.btn-danger').hide();
+        layer.msg('已通过审核!',{icon:1,time:1000});
+      },
+      error:function(data) {
+        console.log(data.msg);//失败
+      },
+    });   
+  });
+}
+
+/*驳回审核*/
+function rebut(obj,id,_this){
+    var id=id;
+    // alert(id);
+    layer.confirm('确认驳回该商品吗？',function(index){
+    $.ajax({
+      type: 'POST',
+      url: "{:url('admin/Food/food_examine_rebut')}",
+      dataType: 'json',
+            data:{movieId:id},
+      success: function(data){               
+        // $(obj).parents("tr").remove();
+        // $('.btn-success').hide();
+        // $('.btn-danger').val('不通过审核');
+
+        _this.val('不通过审核');
+        _this.siblings('.btn-success').hide();
+        layer.msg('已驳回商品!',{icon:1,time:1000});
+      },
+      error:function(data) {
+        console.log(data.msg);//失败
+      },
+    });   
+  });
+}
+</script>
+</body>
+</html>

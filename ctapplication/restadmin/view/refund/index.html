@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>供应商列表</title>
+<style>
+  #btn_tc{display:none;position: absolute;top:0px;left:0px;background-color: rgba(0,0,0,.5);width:100%;height:100%;z-index:1000;}
+  #btn_tc div{display:none;height:150px;width:300px;overflow: hidden;background-color: #fff;position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);padding:10px 10px 0px;}
+  #btn_tc div p{text-align: center;line-height: 25px;margin:0px;padding:0px;}
+  #btn_tc div p:nth-of-type(1){margin:10px 0px;}
+  #btn_tc div p:last-of-type{position:absolute;bottom: 0px;left:0px;width:100%;height:30px;}
+  #btn_tc div p span{display: inline-block;width:49%;height:100%;border:1px solid #ccc;}
+  #btn_tc #refuse_tk{height:220px;}
+  #btn_tc #refuse_tk p:nth-of-type(2){text-align: left;}
+</style>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 订单管理 <span class="c-gray en">&gt;</span> 退货退款 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="pd-20">
+
+{literal}
+
+
+  <!-- <div class="text-c">
+    <b>日期范围：</b></span>
+    <input type="text" onfocus="WdatePicker({ maxDate:'#F{ $dp.$D(\'datemax\')||\'%y-%M-%d\' }' })" id="datemin" class="input-text Wdate" style="width:120px;" value="">
+    <span style="margin-top: 5px;"><b>-</b></span>
+    <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;" value="">
+
+    <input type="text" class="input-text" style="width:250px" value="" placeholder="输入会员名、订单号、商品名称" id="keyword" name=""><button type="submit" class="btn btn-success" id="sec" name=""><i class="icon-search"></i> 搜索订单</button> -->
+{/literal}
+    <!-- <a id="info" class="btn btn-primary radius" href="{:url('admin/Report/return_orderExcel')}">导出报表</a> -->
+    <!-- <input type="text" class="input-text" style="width:170px;margin-right:-606px;" placeholder="餐厅/商店/订单号/收货人" id="keyword" name=""><button style="float: right;" type="submit" class="btn btn-success" id="sec" name=""><i class="icon-search"></i> 搜索</button> -->
+
+  </div>
+  <div class="cl pd-5 bg-1 bk-gray mt-20">
+    <!-- <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
+    </span> -->
+    <!-- <span class="r">共有数据：<strong>88</strong> 条</span> -->
+  </div>
+  
+  <table class="table table-border table-bordered table-hover table-bg table-sort">
+    <thead>
+      <tr class="text-c">
+        <!-- <th width=""><input type="checkbox" name="" value=""></th> -->
+        <th width="">序号</th>
+        <th width="">退款单号</th>
+        <th width="">关联订单号</th>
+        <th width="">商品明细</th>
+        <th width="">退款金额</th>
+        <th width="">退款类型</th>
+        <th width="">订单状态</th>
+        <th width="">收货人</th>
+        <th width="">申请时间</th>
+        <th width="">状态</th>
+        <th width="">操作</th>        
+        <!-- <th width="70">状态</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      {volist name="NewArray" id="v"}
+        <tr class="text-c">
+          <!-- <td><input type="checkbox" value="1" name=""></td> -->
+          <td>{$v.ROW_NUMBER}</td>
+          <td>{$v.Reorder}</td>
+          <td>{$v.OrderCode}</td>
+            
+              <td>
+              {volist name="v['son']" id="v"}
+              {$v.Name}<br/>
+              {/volist}
+              </td>
+            
+          <td>{$v.ReturnTotal}</td>
+          <td>{$v.Ortype}</td>
+          <td>{$v.Orstatus}</td>
+          <td>{$v.Receiver}</td>
+          <td>{$v.CreateTime|subtext='19',''}</td>
+          <td>{$v.Status}</td>
+          <td>
+              {if condition="($v.Orstatus=='已发货') AND ($v.Status=='申请中')"}
+                <button style="display:block; margin: 5 auto;width: 100px;height: 20px;padding:0px;" class="btn btn-success radius agree_tk" type="button" data-id="{:url('restadmin/Refund/agree',['oid' => $v['Oid']])}">同意退款</button>
+                <button style="display:block; margin: 5 auto;width: 100px;height: 20px;padding:0px;" class="btn btn-danger radius refuse_tk" type="button" data-id="">拒绝退款</button>
+                <a id="info" style="display:block; margin: 5 auto;width: 100px;height: 20px;padding:0px;" class="btn btn-primary radius" href="{:url('restadmin/Refund/RefundInfo',['oid' => $v['Oid']])}">订单详情</a>
+              {elseif condition="($v.Orstatus=='待发货') AND ($v.Status=='申请中')"/}
+                <button style="display:block; margin: 5 auto;width: 100px;height: 20px;padding:0px;" class="btn btn-success radius agree_tk" type="button" data-id="{:url('restadmin/Refund/agree',['oid' => $v['Oid']])}">同意退款</button>
+                <a id="info" style="display:block; margin: 5 auto;width: 100px;height: 20px;padding:0px;" class="btn btn-primary radius" href="{:url('restadmin/Refund/RefundInfo',['oid' => $v['Oid']])}">订单详情</a>
+              {elseif condition="$v.Status=='寄回中'"/}  
+                <button style="display:block; margin: 5 auto;width: 100px;height: 20px;padding:0px;" class="btn btn-success radius sure_return" type="button" data-id="{:url('restadmin/Refund/sendback',['code' => $v['OrderCode']])}">确认寄回</button>
+              
+                <a id="info" style="display:block; margin: 5 auto;width: 100px;height: 20px;padding:0px;" class="btn btn-primary radius" href="{:url('restadmin/Refund/RefundInfo',['oid' => $v['Oid']])}">订单详情</a>
+              {elseif condition="$v.Status=='已完成'"/} 
+               <a id="info" style="display:block; margin: 5 auto;width: 100px;height: 20px;padding:0px;" class="btn btn-primary radius" href="{:url('restadmin/Refund/RefundInfo',['oid' => $v['Oid']])}">订单详情</a>
+              {/if}
+             <!--  <button style="display:block; margin: 5 auto;width: 100px;height: 20px;" class="btn btn-success radius" type="button">&nbsp;&nbsp;同意退款&nbsp;&nbsp;</button>
+              <button style="display:block; margin: 5 auto;width: 100px;height: 20px;" class="btn btn-danger radius" type="button">&nbsp;&nbsp;拒绝退款&nbsp;&nbsp;</button>
+              <button style="display:block; margin: 5 auto;width: 100px;height: 20px;" class="btn btn-success radius" type="button">&nbsp;&nbsp;确认寄回&nbsp;&nbsp;</button>
+              <button style="display:block; margin: 5 auto;width: 100px;height: 20px;" class="btn btn-primary radius" type="button">&nbsp;&nbsp;订单详情&nbsp;&nbsp;</button> -->
+          </td>
+          
+          
+         
+        </tr>
+      {/volist}
+
+    </tbody>
+  </table>
+  <!-- 弹窗 -->
+  <div id="btn_tc">
+    
+      <!-- 同意退款 -->
+      <div id='agree_tk'>
+        <p>是否确定同意退款</p>
+        <p>同意退款后，订单的金额将原路返还给买家</p>
+        <p><span class='btn_sure'>确定</span><span class='btn_close'>取消</span></p>
+      </div>
+      <!-- 拒绝退款 -->
+      <div id="refuse_tk" >
+           <p>是否确定拒绝退款</p>
+           <p>拒绝理由<br>
+              <textarea name="" id="" cols="46" rows="5" maxlength='50' placeholder="限50字"></textarea>
+           </p>
+           <p><span class='btn_sure'>残忍拒绝</span><span  class=btn_'close'>取消</span></p>
+      </div>
+      <!-- 确认寄回 -->
+      <div id="sure_return">
+         <p>是否确定已寄回商品</p>
+         <p>确认商品寄回后，退款将原路返还给买家</p>
+         <p><span class='btn_sure'>确定</span><span  class='btn_close'>取消</span></p>
+      </div>
+  </div>
+
+
+
+  <div id="pageNav" class="pageNav">
+   
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+  // $("#sec").click(function (){
+  //   var keyword =$("#keyword").val();
+  //   // alert(keyword);
+  //   window.location.href="__ROOT__/admin/Order/return_list/keyword/"+keyword;
+  //  });
+
+
+  //按钮弹窗
+  var sureReturn;
+  var refuseTk;
+  var agreeTk;
+     $('.agree_tk').click(function (){
+       $('#btn_tc').show().find('#agree_tk').show().siblings('div').hide();
+   		 agreeTk=$(this).attr('data-id');
+// 		 console.log(agreeTk);
+     })
+
+     $('.refuse_tk').click(function (){
+       $('#btn_tc').show().find('#refuse_tk').show().siblings('div').hide();
+       refuseTk=$(this).attr('data-id');
+     })
+
+     $('.sure_return').click(function (){
+       $('#btn_tc').show().find('#sure_return').show().siblings('div').hide();
+       sureReturn=$(this).attr('data-id');      
+//     console.log(sureReturn)
+       
+     })
+
+     $('.btn_close').click(function (){
+       $('#btn_tc').hide();
+     })
+     
+     $('.btn_sure').click(function (){
+	     	if($(this).closest('div').attr('id')=='agree_tk'){
+	     		window.location.href=agreeTk;
+	     	} else if($(this).closest('div').attr('id')=='refuse_tk'){
+	     		window.location.href=refuseTk;
+	     	} else {
+	     		window.location.href=sureReturn;     			
+	     	}     	
+     })
+</script>
+</body>
+</html>

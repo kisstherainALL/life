@@ -1,0 +1,233 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/respond.min.js"></script>
+
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+
+<link rel="stylesheet" type="text/css" href="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<link href="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="page-container">
+    <form action="{:url('admin/Goods/edit')}" method="post" enctype="multipart/form-data" class="form form-horizontal" id="">
+        {volist name="NewArray" id="v"}
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>退款订单号：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$v.Reorder}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>关联订单号：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$v.OrderCode}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>退款申请时间：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$v.CreateTime|subtext='19',''}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>退款类型：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$v.Ortype}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>退款金额：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$v.ReturnTotal}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>退款原因：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$v.AppReason}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>退款状态：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input style="width: 200px;" type="text" class="input-text" value="{$v.Status}" placeholder="" id="" name="title">
+                {if condition="$v.Status=='申请中'"}
+                    
+                {else/}
+                    <a class="btn btn-primary radius" onclick="member_add('查看物流','{:url('restadmin/Refund/express',['gongsi' => $v['Company'],'danhao' => $v['BackYunDanHao']])}','','510')">&nbsp;&nbsp;寄回物流&nbsp;&nbsp;
+                </a>
+                {/if}
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                商品明细：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <table class="table table-border table-bordered table-hover table-bg table-sort">
+                    <thead>
+                      <tr class="text-c">
+                        <!-- <th width=""><input type="checkbox" name="" value=""></th> -->
+                        <th width="">商品名称</th>
+                        <th width="">商品图片</th>
+                        <th width="">规格</th>
+                        <th width="">数量</th>
+                        <th width="">小计</th>
+                      
+                        <!-- <th width="70">状态</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {volist name="v['son']" id="vo"}
+                            <tr class="text-c">
+                              <!-- <td><input type="checkbox" value="1" name=""></td> -->
+                              <td>{$vo.Name}</td>
+                              <td><img width="80" height="80" src="http://life.gzruizi.com/{$vo.Img}"></td>
+                              <td>{$vo.Specification}</td>
+                              <td>{$vo.Count}</td>
+                              <td>{$vo.Price}</td>
+                              
+                            </tr>
+                        {/volist}
+                        <tr class="text-c">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>运费</td>
+                        <td>{$res['YunFei']}</td>
+                        </tr>
+                        <tr class="text-c">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>订单总金额</td>
+                        <td>{$v.Total}</td>
+                        </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+
+        {/volist}
+        
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>商家：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input style="width: 200px;" type="text" class="input-text" value="{$res['Name']}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>商家联系电话：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input style="width: 200px;" type="text" class="input-text" value="{$res['Phone']}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>收货人：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input style="width: 200px;" type="text" class="input-text" value="{$res['Receiver']}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>收货人电话：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input style="width: 200px;" type="text" class="input-text" value="{$res['Mobile']}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>收获人地址：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="{$res['Address']}" placeholder="" id="" name="title">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                
+                
+                <a class="btn btn-primary radius" onclick="member_add('查看物流','{:url('restadmin/Refund/express',['gongsi' => $res['NvrFd1'],'danhao' => $res['NvrFd2']])}','','510')">&nbsp;&nbsp;查看物流&nbsp;&nbsp;
+                </a>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>操作日志</label>
+            <div class="formControls col-xs-8 col-sm-9">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span></label>
+            <div class="formControls col-xs-8 col-sm-9">
+            {volist name="relog" id="vo"}
+                <p style="width: 220px;height: 50px;background:#53868B;border-radius:10px;color:#ffffff;padding-left: 10px">
+                <span>
+                      {$vo.Text}
+                <br/> {$vo.C_Time}
+                </span>
+                </p>
+            {/volist}
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                
+                
+                <button onClick="javascript:history.back(-1);" class="btn btn-default radius" type="button">&nbsp;&nbsp;关闭&nbsp;&nbsp;
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="http://life.gzruizi.com/a/__PUBLIC__/admin/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+
+<script type="text/javascript">
+/*用户-添加*/
+function member_add(title,url,w,h){
+    layer_show(title,url,w,h);
+}
+</script>
+</body>
+</html>

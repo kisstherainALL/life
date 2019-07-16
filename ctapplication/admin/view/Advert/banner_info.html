@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/respond.min.js"></script>
+
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>banner详情</title>
+<style type="text/css">
+	#user-name::-webkit-input-placeholder {
+	color: #2F4F4F;
+}
+</style>
+</head>
+<body>
+<div class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-user-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">
+				标题：</label>
+			<div class="formControls col-xs-6 col-sm-6">
+				<input style="width: 480px;margin-right: 10px;" type="text" class="input-text" value="" placeholder="{$res2['NvrFd1']}" id="user-name" name="product-category-name">标题不能为空
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">
+				链接地址：</label>
+			<div class="formControls col-xs-6 col-sm-6">
+				<input type="text" class="input-text" value="" placeholder="{$res2['NvrFd2']}" id="user-name" name="product-category-name">
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">
+				品质餐厅大图：</label>
+			<div class="formControls col-xs-6 col-sm-6">
+				<img width="200" height="150" src="http://life.gzruizi.com{$res2['NvrFd9']}">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">
+				状态：</label>
+			<div class="formControls col-xs-6 col-sm-6">
+			
+			{if condition="$res2['NvrFd13']=='显示'"}
+			 <label id="recommend-1" for="recommend-2" style="border: 2px solid white; padding: 3px 5px; margin-right: 10px; user-select: none">推荐</label><input type="checkbox" name="" id="recommend-2" value="推荐" style="display: none;" />
+			<label id="display-1" for="display-2" style="border: 2px solid green; padding: 3px 5px; user-select: none">显示</label><input type="checkbox" name="" id="display-2" value="显示" style="display: none;" />
+			{elseif condition="$res2['NvrFd13']=='推荐'"/}
+			<label id="recommend-1" for="recommend-2" style="border: 2px solid green; padding: 3px 5px; margin-right: 10px; user-select: none">推荐</label><input type="checkbox" name="" id="recommend-2" value="推荐" style="display: none;" />
+			<label id="display-1" for="display-2" style="border: 2px solid white; padding: 3px 5px; user-select: none">显示</label><input type="checkbox" name="" id="display-2" value="显示" style="display: none;" />
+			{elseif condition="$res2['NvrFd13']=='推荐 显示'"/}
+			<label id="recommend-1" for="recommend-2" style="border: 2px solid green; padding: 3px 5px; margin-right: 10px; user-select: none">推荐</label><input type="checkbox" name="" id="recommend-2" value="推荐" style="display: none;" />
+			<label id="display-1" for="display-2" style="border: 2px solid green; padding: 3px 5px; user-select: none">显示</label><input type="checkbox" name="" id="display-2" value="显示" style="display: none;" />
+			{else /}
+			 <label id="recommend-1" for="recommend-2" style="border: 2px solid white; padding: 3px 5px; margin-right: 10px; user-select: none">推荐</label><input type="checkbox" name="" id="recommend-2" value="推荐" style="display: none;" />
+			<label id="display-1" for="display-2" style="border: 2px solid white; padding: 3px 5px; user-select: none">显示</label><input type="checkbox" name="" id="display-2" value="显示" style="display: none;" />
+			{/if}
+
+
+			
+			
+				<!-- {$res2['NvrFd13']} -->
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">
+				排序：</label>
+			<div class="formControls col-xs-6 col-sm-6">
+				<input style="width: 480px;margin-right: 10px;" type="text" class="input-text" value="" placeholder="{$res2['IntFd3']}" id="user-name" name="product-category-name">
+				越小越靠前
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">
+				发布时间：</label>
+			<div class="formControls col-xs-6 col-sm-6">
+				<!-- <input type="text" onfocus="WdatePicker({ maxDate:'#F{ $dp.$D(\'datemax\')||\'%y-%M-%d\' }' })" id="datemin" class="input-text Wdate" value="{$res2['TimeFd1']}" style="width:120px;float: left;" value=""> -->
+				<input id="d11" type="text" value="{$res2['TimeFd1']}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+				{$res2['TimeFd1']}
+				<!-- <input type="text" class="input-text" value="" placeholder="{$res2['TimeFd1']}" id="user-name" name="product-category-name"> -->
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-2">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;保存&nbsp;&nbsp;">
+				<button onClick="javascript:history.back(-1);" class="btn btn-success radius" type="button">&nbsp;&nbsp;返回&nbsp;&nbsp;</button>
+			</div>
+		</div>
+	</form>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+
+
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/admin/utf8-php/ueditor.config.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/admin/utf8-php/ueditor.all.min.js"> </script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/admin/utf8-php/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+
+//实例化编辑器
+//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+var ue = UE.getEditor('editor');
+
+		$(function() {
+			var onoff1 = 0,
+				onoff2 = 0
+			$("#recommend-1").on("click", function() {
+				if(onoff1 === 0) {
+					$(this).css({
+						"border": "2px solid green"
+					})
+					onoff1 = 1;
+				} else {
+					$(this).css({
+						"border": "2px solid white"
+					})
+					onoff1 = 0;
+				}
+			})
+			$("#display-1").on("click", function() {
+				if(onoff2 === 0) {
+					$(this).css({
+						"border": "2px solid green"
+					})
+					onoff2 = 1;
+				} else {
+					$(this).css({
+						"border": "2px solid white"
+					})
+					onoff2 = 0;
+				}
+			})
+		})
+</script>
+</body>
+</html>

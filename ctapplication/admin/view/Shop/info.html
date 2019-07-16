@@ -1,0 +1,267 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/respond.min.js"></script>
+
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<link href="__PUBLIC__/admin/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="page-container">
+	<form action="{:url('admin/Shop/edit')}" method="post" enctype="multipart/form-data" class="form form-horizontal" id="">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>店铺名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{$res2['Name']}" placeholder="" id="" name="name">
+                <input type="hidden" class="input-text" value="{$res2['ID']}" placeholder="" id="" name="id">
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>服务费比例：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{$res2['DecFd2']}" placeholder="" id="" name="fuwu">
+			</div>
+		</div>
+		
+
+
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">所属会员：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" disabled="disabled" name="gongyingshang" id="" placeholder="" value="{$res2['EnrolName']}" class="input-text">
+			</div>
+		</div>
+        
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">Logo：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<img width="200" height="200" src="http://life.gzruizi.com/{$res2['Logo']}">
+            </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">排序：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="sort" id="" placeholder="越小越靠前" value="{$res2['PaiXu']}" class="input-text">
+            </div>
+		</div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">人气：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="hits" id="" placeholder="" value="{$res2['Hits']}" class="input-text">
+            </div>
+        </div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">是否开业：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<select name="openshop" class="select" id="status">
+                    
+                  
+                    {if condition="$res2['IsOpen']==1"}
+                        <option class="cate_p" value="1" selected="selected">是</option>
+                        <option class="cate_p" value="0">否</option>
+                    {else /}
+                    	<option class="cate_p" value="1" >是</option>
+                        <option class="cate_p" value="0" selected="selected">否</option>
+                    {/if}   					  
+					
+				</select>
+            </div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">推荐首页：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<select name="tuijian" class="select" id="status">
+                    
+                  
+                    {if condition="$res2['IsRecommend']==1"}
+                        <option class="cate_p" value="1" selected="selected">是</option>
+                        <option class="cate_p" value="0">否</option>
+                    {else /}
+                   		<option class="cate_p" value="1">是</option>
+                        <option class="cate_p" value="0" selected="selected">否</option>
+                    {/if}   					  
+					
+				</select>
+            </div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">新店特惠：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				
+                    
+            {if condition="$res2['TagCodeList']=='|新店特惠|^##^|新店特惠|'"}     
+                <input class="checkbox_p" type="checkbox" checked value="|新店特惠|^##^|新店特惠|" name="newshop"> 新店特惠</input>					  
+			{else /}	
+                 <input class="checkbox_p" type="checkbox" value="|新店特惠|^##^|新店特惠|" name="newshop"> 新店特惠</input>
+            {/if}	
+				
+            </div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">店铺标签：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+                <input class="checkbox_p" type="hidden" value="" name="bq[]"> </input>
+                {if condition="$fist=='014001'"} 
+                    <input class="checkbox_p" type="checkbox" checked value="014001" name="bq[]"> 售后保证</input>
+                    
+                {else /}
+                    <input class="checkbox_p" type="checkbox" value="014001" name="bq[]"> 售后保证</input>
+                    
+
+                {/if}
+				
+                {if condition="$two=='014002'"}
+                    <input class="checkbox_p" type="checkbox" checked value="014002" name="bq[]"> 冷链配送</input>
+                  
+                {else /} 
+                    <input class="checkbox_p" type="checkbox" value="014002" name="bq[]"> 冷链配送</input>
+                    
+                {/if}
+                
+                {if condition="$tree=='014003'"}
+                    <input class="checkbox_p" type="checkbox" checked value="014003" name="bq[]"> 全程品空</input>
+                  
+                {else /} 
+                    <input class="checkbox_p" type="checkbox" value="014003" name="bq[]"> 全程品空</input>
+                   
+                {/if}
+
+                {if condition="$four=='014004'"}
+                    <input class="checkbox_p" type="checkbox" checked value="014004" name="bq[]"> 7天退款</input>
+                   
+                {else /} 
+                    <input class="checkbox_p" type="checkbox" value="014004" name="bq[]"> 7天退款</input>
+                   
+                {/if}
+                <!-- <input class="checkbox_p" type="checkbox" value="014001" name="bq[]"> 冷链配送</input>
+                <input class="checkbox_p" type="checkbox" value="014002" name="bq[]"> 冷链配送</input>
+                <input class="checkbox_p" type="checkbox" value="014003" name="bq[]"> 冷链配送</input>
+                <input class="checkbox_p" type="checkbox" value="014004" name="bq[]"> 冷链配送</input> -->
+                
+                
+            </div>
+		</div>
+
+
+		
+		
+		
+
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">详细内容：</label>
+			<div class="formControls col-xs-8 col-sm-9"> 
+				<script name="content" id="editor" type="text/plain" style="width:100%;height:400px;">{$res2['Detail']}</script> 
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存
+                </button>
+				
+				<button onClick="javascript:history.back(-1);" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;
+                </button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+$("select#status").click(function(){
+    var code=$(this).val();
+    // console.log($(this).val());
+    // alert('123123');
+    console.log(code);
+    $.post("{:URL('admin/Full/category')}",{'code':code},function(res){
+    $("#cateson").html(res);    
+    });
+});
+
+
+//商品单图
+function setImagePreview() {  
+        var docObj=document.getElementById("doc");  
+        var imgObjPreview=document.getElementById("preview");  
+        if(docObj.files && docObj.files[0]){  
+            //火狐下，直接设img属性  
+            imgObjPreview.style.display = 'block';  
+            imgObjPreview.style.width = '300px';  
+            imgObjPreview.style.height = '';                      
+            //imgObjPreview.src = docObj.files[0].getAsDataURL();  
+              
+            //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式    
+            imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);  
+        }else{  
+            //IE下，使用滤镜  
+            docObj.select();  
+            var imgSrc = document.selection.createRange().text;  
+            var localImagId = document.getElementById("localImag");  
+            //必须设置初始大小  
+            localImagId.style.width = "300px";  
+            localImagId.style.height = "";  
+            //图片异常的捕捉，防止用户修改后缀来伪造图片  
+            try{  
+                localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";  
+                localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;  
+            }catch(e){  
+                alert("您上传的图片格式不正确，请重新选择!");  
+                return false;  
+            }  
+            imgObjPreview.style.display = 'none';  
+            document.selection.empty();  
+        }  
+        return true;  
+} 
+
+
+$(function(){
+	var ue = UE.getEditor('editor');
+});
+</script>
+</body>
+</html>

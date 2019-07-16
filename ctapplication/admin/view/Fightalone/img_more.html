@@ -1,0 +1,133 @@
+<style type="text/css">
+   /**********上传样式***********/
+    .progress{position:relative;padding: 1px; border-radius:3px; margin:30px 0 0 0;}
+    .bar{background-color: green; display:block; width:0%; height:20px; border-radius:3px;}
+    .percent{position:absolute; height:20px; display:inline-block;top:3px; left:2%; color:#fff}
+    .progress{
+    height: 100px;
+    padding: 30px 0 0;
+    width:100px;
+    border-radius: 0;
+    }
+    .btn{ -webkit-border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px; -o-border-radius:3px; border-radius:3px;
+    background-color:#ff8400; color:#fff; display:inline-block; height:28px; line-height:28px; text-align:center; padding:0 12px;
+    transition:background-color .2s linear 0s; border:0; cursor:pointer;text-decoration: none}
+    .btn:hover{background-color:#e95a00; text-decoration:none}
+    .photos_area .item {
+    float: left;
+    margin: 0 10px 10px 0;
+    position: relative;
+    }
+    .photos_area .item{position: relative;float:left;margin:0 10px 10px 0;}
+    .photos_area .item img{border: 1px solid #cdcdcd;}
+    .photos_area .operate{background: rgba(33, 33, 33, 0.7) none repeat scroll 0 0; bottom: 0; padding:5px 0; left: 0; position: absolute; width: 102px; z-index: 5; line-height: 21px; text-align: center;}
+    .photos_area .operate i{cursor: pointer; display: inline-block; font-size: 0; height: 12px; line-height: 0; margin: 0 5px; overflow: hidden; width: 12px; background: url("__PUBLIC__img/icon_sucaihuo.png") no-repeat scroll 0 0;}
+    .photos_area .operate .toright{background-position: -13px -13px; position: relative;top:1px;}
+    .photos_area .operate .toleft{background-position: 0 -13px; position: relative;top:1px;}
+    .photos_area .operate .del{background-position: -13px 0; position: relative;top:0px;}
+    .photos_area .preview{background-color: #fff; font-family: arial; line-height: 90px; text-align: center; z-index: 4; left: 0; position: absolute; top: 0; height: 90px; overflow: hidden; width: 90px;}
+    td{padding: 20px 0}
+</style> 
+<div class="am-form-group">
+    <label for="user-weibo" class="am-u-sm-2 am-form-label">商品展示图 <span class="tpl-form-line-small-title"></span></label>
+    <div class="am-u-sm-10">
+        <a class="btn" id="logo_upload_btn" href="javascript:;" style="position: relative; z-index: 1;">上传图片</a>
+        <div id="html5_1bgup8jov48unak1dv21sf8m5n3_container" class="moxie-shim moxie-shim-html5" style="position: absolute; top: 20px; left: 0px; width: 96px; height: 28px; overflow: hidden; z-index: 0;">
+            <input id="html5_1bgup8jov48unak1dv21sf8m5n3" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;" multiple="" accept="image/jpeg,image/png,image/gif"/>
+        </div>
+        
+        <div id="logo_upload_area" style="margin-top: 30px">
+            <div id="photos_area" class="photos_area clearfix">
+                <notempty name="one.more_img">
+                <php>$more_img = explode(',',$one['more_img']);//dump($more_img)</php>
+                <volist name="more_img" id="v">
+                <div class="item">
+                    <input type=hidden name='more_img[]' value='{$v}'/><img src='{$v}' alt='{$v|basename}' width='102px' height='102px'/><div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>
+                </div>
+                </volist>
+                </notempty>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__plupload/plupload.full.min.js"></script> 
+<script type="text/javascript">
+var uploader = new plupload.Uploader({
+    runtimes: 'gears,html5,html4,silverlight,flash',
+    browse_button: 'logo_upload_btn',
+    url: "{:U('upload_img?type=1')}",
+    flash_swf_url: '__PUBLIC__plupload/Moxie.swf',
+    silverlight_xap_url: '__PUBLIC__plupload/Moxie.xap',
+    filters: {
+        max_file_size: '2mb',
+        mime_types: [{
+            title: "files",
+            extensions: "jpg,png,gif,jpeg"
+        }]
+    },
+    multi_selection: true,////true:ctrl多文件上传, false 单文件上传
+    init: {
+        FilesAdded: function(up, files) {
+            $("#btn_submit").attr("disabled", "disabled").addClass("disabled").val("正在上传...");
+            var item = '';
+            plupload.each(files,
+            function(file) { //遍历文件
+                item += "<div class='item' id='" + file['id'] + "'><div class='progress'><span class='bar'></span><span class='percent'>0%</span></div></div>";
+            });
+            $("#photos_area").append(item);
+            uploader.start();
+        },
+        UploadProgress: function(up, file) { //上传中，显示进度条
+            var percent = file.percent;
+            $("#" + file.id).find('.bar').css({
+                "width": percent + "%"
+            });
+            $("#" + file.id).find(".percent").text(percent + "%");
+        },
+        FileUploaded: function(up, file, info) {
+            var data = eval("(" + info.response + ")");
+            $("#" + file.id).html("<input type=hidden name='more_img[]' value='" + data.pic + "'/><img src='" + data.pic + "' alt='" + data.name + "' width='102px' height='102px'/>\n\<div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>");
+            $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+            if (data.error != 0) {
+                alert(data.error);
+            }
+        },
+        Error: function(up, err) {
+            if (err.code == -601) {
+                alert("请上传jpg,png,gif,jpeg,zip或rar！");
+                $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+            }
+        }
+    }
+});
+uploader.init();
+//左右切换和删除图片
+$(function() {
+    $("#photos_area").on("click",".toleft",function() {
+        var item = $(this).parent().parent(".item");
+        var item_left = item.prev(".item");
+        if ($("#photos_area").children(".item").length >= 2) {
+            if (item_left.length == 0) {
+                item.insertAfter($("#photos_area").children(".item:last"));
+            } else {
+                item.insertBefore(item_left);
+            }
+        }
+    })
+    $("#photos_area").on("click",".toright",function() {
+        var item = $(this).parent().parent(".item");
+        var item_right = item.next(".item");
+        if ($("#photos_area").children(".item").length >= 2) {
+            if (item_right.length == 0) {
+                item.insertBefore($("#photos_area").children(".item:first"));
+            } else {
+                item.insertAfter(item_right);
+            }
+        }
+    })
+    $("#photos_area").on("click",".del",function() {
+        $(this).parent().parent(".item").remove();
+    })
+}) 
+</script>

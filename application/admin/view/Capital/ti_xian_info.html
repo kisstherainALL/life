@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/respond.min.js"></script>
+
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>提现管理详情</title>
+<style type="text/css">
+    #user-name::-webkit-input-placeholder {
+    color: #2F4F4F;
+}
+</style>
+</head>
+<body>
+<div class="page-container">
+    <form action="{:url('admin/Capital/ti_xian_edit')}" method="post" class="form form-horizontal" id="form-user-add">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                会员名称：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['EnrolName']}" placeholder="" id="user-name" disabled="disabled" name="product-category-name">
+                <input type="hidden" class="input-text" value="{$res2['ID']}" placeholder="" id="user-name" name="id">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                真实姓名：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['TrueName']}" placeholder="" id="user-password" name="" disabled="disabled">
+            </div>
+        </div>
+        
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                提现至银行开户名：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['ToName']}" placeholder="" id="user-name" name="" disabled="disabled">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                提现至账号：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['ToAccount']}" placeholder="" id="user-name" name="" disabled="disabled">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                开户网点名：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['ToBankDetailName']}" placeholder="" id="user-name" name="" disabled="disabled">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                提现金额：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['ApplyAmount']}" placeholder="" id="user-name" name="" disabled="disabled">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                实际到账金额：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['TrueAmount']}" placeholder="" id="user-name" name="" disabled="disabled">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                申请提现时间：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['AuditTime']}" placeholder="" id="user-name" name="" disabled="disabled">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                提现成功时间：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['SuccessTiXianTime']}" placeholder="" id="user-name" name="" disabled="disabled">
+            </div>
+        </div>
+
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                审核状态：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                
+                <select class="input-text" name="AuditStatus">  
+                {if condition="$res2['AuditStatus']=='未审核'"} 
+                    <option value="{$res2['AuditStatus']}" selected="selected">{$res2['AuditStatus']}</option>
+                    <option value="审核通过">审核通过</option>
+                    <option value="审核不通过">审核不通过</option>
+                {elseif condition="$res2['AuditStatus']=='审核通过'"/}
+                    <option value="{$res2['AuditStatus']}" selected="selected">{$res2['AuditStatus']}</option>
+                {elseif condition="$res2['AuditStatus']=='审核不通过'"/}  
+                    <option value="{$res2['AuditStatus']}" selected="selected">{$res2['AuditStatus']}</option>  
+                {/if}
+                </select>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                审核时间：</label>
+            <div class="formControls col-xs-6 col-sm-6">                
+                <input id="d11" type="text" name="shen_time" value="{$res2['ApplyTime']}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>               
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                提成状态：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                
+                <select class="input-text" name="PayStatus">  
+                {if condition="$res2['PayStatus']=='未提现'"} 
+                    <option value="{$res2['PayStatus']}" selected="selected">{$res2['PayStatus']}</option>
+                    <option value="提现中">提现中</option>
+                    <option value="提现成功">提现成功</option>
+                    <option value="提现失败">提现失败</option>
+                {elseif condition="$res2['PayStatus']=='提现成功'"/}
+                    <option value="{$res2['PayStatus']}" selected="selected">{$res2['PayStatus']}</</option>
+                {elseif condition="$res2['PayStatus']=='提现失败'"/}
+                    <option value="{$res2['PayStatus']}" selected="selected">{$res2['PayStatus']}</</option>
+                {/if}
+                </select>
+            </div>
+        </div>        
+                  
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                审核不通过原因：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <textarea name="beizhu" cols="" rows="" class="textarea"  placeholder="请输入审核不通过原因。。。" onKeyUp="$.Huitextarealength(this,100)">{$res2['ContractNo']}</textarea>
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                提现失败原因：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <textarea name="fail" cols="" rows="" class="textarea"  placeholder="请输入审核不通过原因。。。" onKeyUp="$.Huitextarealength(this,100)">{$res2['Demo']}</textarea>
+            </div>
+        </div>
+        
+        <div class="row cl">
+            <div class="col-9 col-offset-2">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;保存&nbsp;&nbsp;">
+                <button onClick="javascript:history.back(-1);" class="btn btn-success radius" type="button">&nbsp;&nbsp;返回&nbsp;&nbsp;</button>
+            </div>
+        </div>
+    </form>
+
+   
+
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(function(){
+    
+});
+</script>
+</body>
+</html>

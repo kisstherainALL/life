@@ -1,0 +1,92 @@
+<style type="text/css">
+    a{cursor:pointer;}
+    body{background: #fff none repeat scroll 0 0; color: #333; font: 12px/1.5 "Microsoft YaHei","Helvetica Neue",Helvetica,STHeiTi,sans-serif; background-position: left top; background-repeat: repeat; background-attachment: scroll;}
+    .clearfix:after{visibility:hidden; display:block; font-size:0; content:" "; clear:both; height:0}
+    *:first-child+html .clearfix{zoom:1}
+    ul,li{list-style: none;padding:0;margin:0}
+    .avatar_uplpad_btn {
+        background:  url("__PUBLIC__img/avatar_uplpad_btn.png") no-repeat scroll 0 0;
+        display: inline-block;
+        height: 30px;
+        width: 82px;
+    }
+    .loading_bar{background: #f2f2f5 none repeat scroll 0 0;border-radius: 6px;display: inline-block;font-size: 0;height: 10px;overflow: hidden;text-align: left;width: 250px;}
+    .loading_bar em{background: #fa7d3c none repeat scroll 0 0;display: inline-block;height: 10px;vertical-align: top;}
+    #avatar_pic img{width:200px;}
+</style> 
+<div class="am-form-group">
+    <label for="user-weibo" class="am-u-sm-2 am-form-label">水印图 <span class="tpl-form-line-small-title"></span></label>
+    <div class="am-u-sm-10">
+        <div class="avatar_area" style="position: relative;">
+        <a href="javascript:void(0);" class="avatar_uplpad_btn" id="avatar_uplpad_btn" style="position: relative; z-index: 1;">
+        </a>
+        <div id="avatar_pic" style="<empty name="one.mark_img">display: none;<else/>display:block</empty>">
+            <img src="__ROOT__/{$one.mark_img}" />
+            <input id="gg_mark_img" name="mark_img" type="hidden" value="{$one.mark_img}" />
+        </div>
+        <div id="loading_bar" style="display: none;">
+            <p id="updesc">
+                图片上传中...
+            </p>
+            <span class="loading_bar">
+                <em id="percent" style="width: 100%;">
+                </em>
+            </span>
+            <span id="percentnum">
+                100%
+            </span>
+        </div>
+        <div id="html5_1bgukajsm1v35o2oll69a8tap3_container" class="moxie-shim moxie-shim-html5" style="position: absolute; top: 0px; left: 634px; width: 82px; height: 30px; overflow: hidden; z-index: 0;">
+            <input id="html5_1bgukajsm1v35o2oll69a8tap3" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;" accept="image/jpeg,image/png,image/gif" />
+        </div>
+    </div>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__plupload/plupload.full.min.js"></script> 
+<script type="text/javascript">
+$(function(){
+    var uploader_avatar = new plupload.Uploader({ //创建实例的构造方法
+        runtimes: 'gears,html5,html4,silverlight,flash', //上传插件初始化选用那种方式的优先级顺序
+        browse_button: ['avatar_uplpad_btn'], // 上传按钮
+        url: "{:U('upload_img')}", //远程上传地址
+        flash_swf_url: '__PUBLIC__plupload/Moxie.swf', //flash文件地址
+        silverlight_xap_url: '__PUBLIC__plupload/Moxie.xap', //silverlight文件地址
+        filters: {
+            max_file_size: '2mb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+            mime_types: [ //允许文件上传类型
+                {title: "files", extensions: "jpg,png,gif,jpeg"}
+            ]
+        },
+        multi_selection: false, //true:ctrl多文件上传, false 单文件上传
+        init: {
+            FilesAdded: function(up, files) { //文件上传前
+                $("#avatar_pic").hide();
+                $("#loading_bar").show();
+                uploader_avatar.start();
+            },
+            UploadProgress: function(up, file) { //上传中，显示进度条
+                var percent = file.percent;
+                $("#percent").css({"width": percent + "%"});
+                $("#percentnum").text(percent + "%");
+            },
+            FileUploaded: function(up, file, info) { //文件上传成功的时候触发
+                
+                var data = eval("(" + info.response + ")");//解析返回的json数据
+                // alert(data.pic)
+                $("#avatar_pic img").attr("src",data.pic);
+                $("#loading_bar").hide();
+                $('#gg_mark_img').val(data.pic1);
+                $("#avatar_pic").show();
+            },
+            Error: function(up, err) { //上传出错的时候触发
+                alert(err.message);
+                $("#loading_bar").hide();
+            }
+        }
+    });
+    uploader_avatar.init();
+})
+
+</script> 

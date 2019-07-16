@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+        <title>plupload</title>
+
+        <style type="text/css">
+            a{cursor:pointer;}
+            body{background: #fff none repeat scroll 0 0; color: #333; font: 12px/1.5 "Microsoft YaHei","Helvetica Neue",Helvetica,STHeiTi,sans-serif; background-position: left top; background-repeat: repeat; background-attachment: scroll;}
+            .clearfix:after{visibility:hidden; display:block; font-size:0; content:" "; clear:both; height:0}
+            *:first-child+html .clearfix{zoom:1}
+            ul,li{list-style: none;padding:0;margin:0}
+
+            /**********上传样式***********/
+
+            .photo_upload_box{padding: 16px 0 10px 16px; width: 468px;margin:100px auto 0;background-color: #FFF; border: 1px solid #ccc; border-radius: 3px; box-shadow: 0 4px 20px 1px rgba(0, 0, 0, 0.2); position: relative}
+            .photo_upload_box h1{font-size: 14px;font-weight: 700;}
+            .photo_upload_box .upload_num{margin:10px 0}
+            .ul_pics li{float:left;width:80px;height:80px;margin:0 8px 8px 0;position: relative}
+            .ul_pics li img{width:100%;height: 100%}
+            .progress{position:relative;padding: 1px; border-radius:3px; margin:30px 0 0 0;}
+            .bar{background-color: green; display:block; width:0%; height:20px; border-radius:3px;}
+            .percent{position:absolute; height:20px; display:inline-block;top:3px; left:2%; color:#fff}
+            .pic_close{background:url("images/ico_layer.png") no-repeat scroll -25px -25px; display: none; height: 20px; width: 20px; position: absolute;right:0;top:0;z-index: 990}
+            .ul_pics li:hover .pic_close{display: block}
+
+            .uploading-tip {
+                background: rgba(0, 0, 0, 0.8) none repeat scroll 0 0;
+                bottom: 0;
+                box-sizing: border-box;
+                height: 0;
+                left: 0;
+                position: absolute;
+                width: 100%;
+                z-index: 100;
+                text-align: left;
+                line-height: 20px
+            }
+
+            .uploading-tip > span ,.uploading-tip > i {
+                color: green;
+                cursor: pointer;
+                font-family: "宋体";
+                font-size: 18px;
+                font-style: normal;
+                margin:0 0 0 12px;
+
+            }
+
+            .uploading-tip>i {
+                color: red;
+                font-family: "微软雅黑";
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript" src="__PUBLIC__/admin/jquery.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/admin/plupload/plupload.full.min.js"></script>
+
+        <div class="photo_upload_box">
+            <h1>本地上传</h1>
+            <p class="upload_num">共<span id="uploaded_length">0</span>张，还能上传<span id="upload_other">10</span>张</p>
+            <ul id="ul_pics" class="ul_pics clearfix">
+                <li id="local_upload"><img src="__PUBLIC__/admin/images/local_upload.png" id="btn2"/></li>
+            </ul>
+        </div>
+
+        <p style="text-align:center"> <a onclick="getPics()" style="color:red;font-size:15px">获取图片</a></p>
+        <script type="text/javascript" src="__PUBLIC__/admin/plupload/plupload.full.min.js"></script>
+        <script type="text/javascript">
+           var upload_total = 10;//最多上传数量
+           var uploader = new plupload.Uploader({//创建实例的构造方法
+               runtimes: 'gears,html5,html4,silverlight,flash', //上传插件初始化选用那种方式的优先级顺序
+               browse_button: ['btn2'], // 上传按钮
+               url: "ajax.php", //远程上传地址
+               flash_swf_url: 'plupload/Moxie.swf', //flash文件地址
+               silverlight_xap_url: 'plupload/Moxie.xap', //silverlight文件地址
+               filters: {
+                   max_file_size: '10mb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+                   mime_types: [//允许文件上传类型
+                       {title: "files", extensions: "jpg,png,gif,jpeg"}
+                   ]
+               },
+               multi_selection: true, //true:ctrl多文件上传, false 单文件上传
+               init: {
+                   FilesAdded: function(up, files) { //文件上传前
+                       var length_has_upload = $("#ul_pics").children("li").length;
+                       if (files.length >= upload_total) { //超过上传总数量则隐藏
+                           $("#local_upload").hide();
+                       }
+                       var li = '';
+                       plupload.each(files, function(file) { //遍历文件
+                           if (length_has_upload <= upload_total) {
+                               li += "<li class='li_upload' id='" + file['id'] + "'><div class='progress'><span class='bar'></span><span class='percent'>0%</span></div></li>";
+                           }
+                           length_has_upload++;
+                       });
+                       $("#ul_pics").prepend(li);
+                       uploader.start();
+                   },
+                   UploadProgress: function(up, file) { //上传中，显示进度条
+                       var percent = file.percent;
+                       $("#" + file.id).find('.bar').css({"width": percent + "%"});
+                       $("#" + file.id).find(".percent").text(percent + "%");
+                   },
+                   FileUploaded: function(up, file, info) { //文件上传成功的时候触发
+                       var uploaded_length = $(".img_common").length;
+                       if (uploaded_length <= upload_total) {
+                           var data = eval("(" + info.response + ")");//解析返回的json数据
+                           if (data.message != undefined) {
+                               $("#" + file.id).remove();
+                               alert(data.message);
+                               return false;
+                           }
+                           $("#" + file.id).html("<input type='hidden'name='pic[]' value='" + data.pic + "'/><input type='hidden'name='pic_name[]' value='" + data.name + "'/>\n\
+                <img class='img_common' src='" + data.pic + "' /><span class='picbg'></span><div  class='uploading-tip' style='overflow: hidden; height: 0px;'><span class='onLandR' onclick='reverse_left($(this))'>&lt;</span><span class='onLandR' onclick='reverse_right($(this))'>&gt;</span><i class='onDelPic' onclick=delPic('" + data.pic + "','" + file.id + "')>×</i></div>");
+                       }
+
+                       showUploadBtn();
+                       hover_li();
+                   },
+                   Error: function(up, err) { //上传出错的时候触发
+                       alert(err.message);
+                   }
+               }
+           });
+           uploader.init();
+
+
+           function showUploadBtn() { //是否显示上传按钮
+               var uploaded_length = $(".img_common").length;
+               $("#uploaded_length").text(uploaded_length);
+               var other_length = (upload_total - uploaded_length) > 0 ? upload_total - uploaded_length : 0;
+               $("#upload_other").text(other_length);
+               var uploaded_length = $(".img_common").length;
+               if (uploaded_length >= upload_total) {
+                   $("#local_upload").hide();
+               } else {
+                   $("#local_upload").show();
+               }
+           }
+
+
+           function hover_li() {
+               $("#ul_pics").children(".li_upload").hover(function() {
+                   $(this).find(".uploading-tip").stop().animate({height: '25px'}, 200);
+               }, function() {
+                   $(this).find(".uploading-tip").stop().animate({height: '0'}, 200);
+               })
+           }
+           //向左移动图片
+           function reverse_left(obj) {
+               var obj_li = obj.parents("li");
+               var obj_prev = obj_li.prev("li");
+               if (obj_prev.hasClass("li_upload")) {
+                   obj_li.insertBefore(obj_prev);
+                   obj_li.find(".uploading-tip").css({"height": 0});
+               }
+           }
+           //向右移动图片
+           function reverse_right(obj) {
+               var obj_li = obj.parents("li");
+               var obj_next = obj_li.next("li");
+               if (obj_next.hasClass("li_upload")) {
+                   obj_li.insertAfter(obj_next);
+                   obj_li.find(".uploading-tip").css({"height": 0});
+               }
+           }
+           //获取第一张图片(封面)和所有上传的图片
+           function getPics() {
+               var pics = "";
+               $("#ul_pics").find(".img_common").each(function() {
+                   pics += $(this).attr("src") + ",";
+               })
+               var logo = "";
+               if ($("#ul_pics").find(".img_common").length > 0) {
+                   logo = $("#ul_pics").find(".img_common").eq(0).attr("src");
+               }
+               alert("第一张图片：" + logo + "\n\所有图片：" + pics)
+           }
+           //删除图片
+           function delPic(pic, file_id) { //删除图片 参数1图片路径  参数2 随机数
+               $.post("del.php", {pic: pic}, function(data) {
+                   $("#" + file_id).remove();
+                   showUploadBtn();
+               })
+           }
+        </script>

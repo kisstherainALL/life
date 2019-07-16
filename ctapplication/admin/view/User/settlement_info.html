@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/html5shiv.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/respond.min.js"></script>
+
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>供应商详情</title>
+<style type="text/css">
+    #user-name::-webkit-input-placeholder {
+    color: #2F4F4F;
+}
+</style>
+</head>
+<body>
+<div class="page-container">
+    <form action="{:url('admin/User/settlement_edit')}" method="post" class="form form-horizontal" id="form-user-add">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                会员名称：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['EnrolName']}" placeholder="" id="user-name" disabled="disabled" name="product-category-name">
+                <input type="hidden" class="input-text" value="{$res2['ID']}" placeholder="" id="user-name" name="id">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                店铺名称：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['Name']}" placeholder="" id="user-password" name="" disabled="disabled">
+            </div>
+        </div>
+        
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                结算金额：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['JieSuanMoney']}" placeholder="" id="user-name" name="" disabled="disabled">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                结算开始时间：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['JieMoneylogBeginTime']}" placeholder="" id="user-name" name="" disabled="disabled">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                结算截止时间：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['JieMoneylogEndTime']}" placeholder="" id="user-name" name="" disabled="disabled">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                是否付款：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                
+                <select class="input-text" name="ispay">  
+                {if condition="$res2['IsPay']=='未付'"} 
+                    <option value="0" selected="selected">{$res2['IsPay']}</option>
+                    <option value="1">已付</option>
+                {elseif condition="$res2['IsPay']=='已付'"/}
+                    <option value="1" selected="selected">{$res2['IsPay']}</</option>
+                {/if}
+                </select>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                结算人：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$res2['JieSuanPeople']}" placeholder="" id="user-name" name="men">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                操作：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <select class="input-text" name="sec">  
+                {if condition="$res2['Status']=='审核通过'"} 
+                    <option value="{$res2['Status']}" selected="selected">{$res2['Status']}</option>
+                {elseif condition="$res2['Status']=='未处理'"/}
+                    <option value="" selected="selected">{$res2['Status']}</</option>
+                    <option value="审核通过">审核通过</option>
+                    <option value="审核不通过">审核不通过</option>
+                {elseif condition="$res2['Status']=='审核不通过'"/}
+                    <option value="审核通过">审核通过</option>
+                    <option value="审核不通过" selected="selected">审核不通过</option>  
+                {elseif condition="($res2['Status']=='审核通过') && ($res2['IsPay']=='已付')"/}
+                    <option value="审核通过，并已付款" selected="selected">审核通过，并已付款</option>
+                {/if}
+                </select>
+            </div>
+        </div>
+                  
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                审核不通过原因：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <textarea name="beizhu" cols="" rows="" class="textarea"  placeholder="请输入审核不通过原因。。。" onKeyUp="$.Huitextarealength(this,100)">{$res2['NvrFd1']}</textarea>
+            </div>
+        </div>
+        
+        <div class="row cl">
+            <div class="col-9 col-offset-2">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;保存&nbsp;&nbsp;">
+                <button onClick="javascript:history.back(-1);" class="btn btn-success radius" type="button">&nbsp;&nbsp;返回&nbsp;&nbsp;</button>
+            </div>
+        </div>
+    </form>
+    
+    <form method="post" action="{:url('admin/User/settlement_infoExcel')}">
+        <button style="margin-top:60px; " type="submit" id="download" class="btn btn-primary radius">导出数据</button>
+        <input type="hidden" value="{$res2['ID']}" placeholder="" id="" name="id">
+        <table style="margin-top:10px;" class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+              <tr class="text-c">
+                <!-- <th width=""><input type="checkbox" name="" value=""></th> -->
+                <th width="">序号</th>
+                <th width="">订单编号</th>
+                <th width="">订单金额</th>
+                <th width="">运营金额</th>
+                <th width="">平台服务费</th>
+                <th width="">返现支出</th>
+                <th width="">佣金支出</th>
+                <th width="">费率</th>
+                <th width="">结算金额</th>
+                <th width="">结算状态</th>
+                <th width="">订单完成时间</th>
+                <!-- <th width="70">状态</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              {volist name="data" id="vo"}
+                <tr class="text-c">
+                  <!-- <td><input type="checkbox" value="1" name=""></td> -->
+                  <td>{$vo.ROW_NUMBER}</td>
+                  <td>{$vo.OrderCode}</td>
+                  <td><font color="#218868">{$vo.Total}</font></td>
+                  <td><font color="#218868">{$vo.tj_yunyingjine}</font></td>
+                  <td><font color="#FF0000">{$vo.tj_pingtaifuwufei}</font></td>
+                  <td><font color="#FF0000">{$vo.tj_fangxian}</font></td>
+                  <td><font color="#FF0000">{$vo.tj_yongjin}</font></td>
+                  <td><font color="#F4A460"><b>{$vo.tj_feilv}</b></font></td>
+                  <td><font color="#218868"><b>{$vo.jiesuan}</b></font></td>
+                  <td>{$vo.zhuantai}</td>
+                  <td>{$vo.TimeFd4}</td>
+                </tr>
+              {/volist}
+            </tbody>
+        </table>
+    </form>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(function(){
+    
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<style type="text/css">
+.pagination li{
+  display: inline-block;
+  text-align: center;
+}
+.pagination .active a{
+  background:#87CEFA;
+  color: #fff;
+}
+</style> 
+<ul class="pagination">
+  {if condition="$page==1"}
+    <li class="active"><a href="?page=1">{$page}</a></li>
+    {if $page+1<=$lastpage}
+    <li><a href="?page={$page+1}">{$page+1}</a></li>
+    {else}
+    {/if}
+    {if $page+2<=$lastpage}
+    <li><a href="?page={$page+2}">{$page+2}</a></li>
+    {else}
+    {/if}
+    {if $page+3<=$lastpage}
+    <li><a href="?page={$page+3}">{$page+3}</a></li>
+    {else}
+    {/if}
+    {if $page+4<=$lastpage}
+    <li><a href="?page={$page+4}">{$page+4}</a></li>
+    {else}
+    {/if}
+    {if $lastpage>1}
+    <li class="disabled"><a href="?page={$page+1}"><span>下一页&raquo;</span></a></li>
+    <li><a href="?page={$lastpage}"><span>尾页</a></span></li>
+    {else}
+    {/if}
+  {elseif condition="$page==$lastpage"/}
+    <li><a href="?page=1"><span>首页</a></span></li>
+    <li><a href="?page={if $page>1}{$page-1}{else}1{/if}"><span>&laquo;上一页</a></span></li>
+    {if $page-4>=1}
+    <li><a href="?page={$page-4}">{$page-4}</a></li>
+    {else}
+    {/if}
+    {if $page-3>=1}
+    <li><a href="?page={$page-3}">{$page-3}</a></li>
+    {else}
+    {/if}
+    {if $page-2>=1}
+    <li><a href="?page={$page-2}">{$page-2}</a></li>
+    {else}
+    {/if}
+    {if $page-1>=1}
+    <li><a href="?page={$page-1}">{$page-1}</a></li>
+    {else}
+    {/if}
+    <li class="active"><a href="?page={$page}">{$page}</a></li>
+    
+    
+  {else /} 
+    <li><a href="?page=1"><span>首页</a></span></li>
+    <li><a href="?page={if $page>1}{$page-1}{else}1{/if}"><span>&laquo;上一页</a></span></li>
+    {if $page-2>=1}
+    <li><a href="?page={$page-2}">{$page-2}</a></li>
+    {else}
+    {/if}
+    {if $page-1>=1}
+    <li><a href="?page={$page-1}">{$page-1}</a></li>
+    {else}
+    {/if}
+    <li class="active"><a href="?page=1">{$page}</a></li>
+    {if $page+1<=$lastpage}
+    <li><a href="?page={$page+1}">{$page+1}</a></li>
+    {else}
+    {/if}
+    {if $page+2<=$lastpage}
+    <li><a href="?page={$page+2}">{$page+2}</a></li>
+    {else}
+    {/if}
+    <li class="disabled"><a href="?page={$page+1}"><span>下一页&raquo;</span></a></li>
+    <li><a href="?page={$lastpage}"><span>尾页</a></span></li>
+  {/if}
+</ul>
